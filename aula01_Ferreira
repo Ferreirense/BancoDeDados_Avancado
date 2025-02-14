@@ -1,0 +1,86 @@
+create schema if not exists aula01;
+
+
+
+CREATE TABLE funcionarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    cargo VARCHAR(50),
+    salario DECIMAL(10, 2),
+    departamento VARCHAR(100)
+);
+
+INSERT INTO funcionarios (nome, cargo, salario, departamento) VALUES
+('Anna ', 'Agente Administrativo', 4500.00 ,' RH '),
+('Alfredo', 'Agente Policial', 8000.00, 'Patrulha'),
+('Ferdinado', 'Agente Administrativo ', 4500.00, 'RH'),
+('Bruno ', 'Escrivão', 5200.00, 'Judiciario'),
+('Juliana', 'Agente Policial', 8000.00, 'Patrulha'),
+('Matheus', 'Escrivão ', 5200.00, ' Judiciario' ),
+('Lucas ', 'Delegado', 11000.00, 'Direito');
+
+
+SELECT nome, salario
+FROM funcionarios
+WHERE salario > 3000;
+
+
+SELECT * 
+FROM funcionarios
+ORDER BY nome ASC;
+
+SELECT 
+    COUNT(*) AS total_funcionarios,
+    AVG(salario) AS media_salarial,
+    SUM(salario) AS soma_salarial
+FROM funcionarios;
+
+SELECT 
+    departamento,
+    COUNT(*) AS quantidade_funcionarios,
+    AVG(salario) AS media_salarial
+FROM funcionarios
+GROUP BY departamento
+HAVING COUNT(*) > 3;
+
+SELECT nome, salario
+FROM funcionarios
+WHERE salario > (
+    SELECT AVG(salario)
+    FROM funcionarios
+);
+
+SELECT e.nome AS funcionario, d.nome AS departamento
+FROM departamento e
+INNER JOIN departamento d ON e.departamento_id = d.id;
+
+
+SELECT e.nome AS funcionario, d.nome AS departamento
+FROM Employees e
+LEFT JOIN Departments d ON e.departamento_id = d.id;
+
+SELECT * 
+FROM Orders
+WHERE order_date BETWEEN '2025-01-01' AND '2025-01-31';
+
+SELECT * 
+FROM Orders
+WHERE YEAR(order_date) = 2025 AND MONTH(order_date) = 1;
+
+SELECT nome AS Nome, salario AS Salario
+FROM funcionarios;
+
+SELECT f.nome, f.salario
+FROM funcionarios f
+WHERE f.salario > (
+    SELECT AVG(f2.salario)
+    FROM funcionarios f2
+    WHERE f2.departamento_id = f.departamento_id
+);
+
+
+
+
+
+
+
